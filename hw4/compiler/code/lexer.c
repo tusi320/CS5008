@@ -198,12 +198,38 @@ char advance(Lexer *lx)
     return c;
 }
 
-void skip_whitespace(Lexer *lx)
+
+char peek_next(Lexer *lx)
 {
-    while(!is_at_end(lx) && isspace((unsigned char)peek(lx)))
+    if (lx->index + 1 >= lx->source.count)
     {
-        advance(lx);
+        return '\0';
     }
+    return lx->source.data[lx->index + 1];
+}
+
+void skip_whitespace_and_comment(Lexer *lx)
+{
+    for(;;)
+    {
+        char c = peek(lx);
+        if (isspace((unsigned char)c))
+        {
+            advance(lx);
+        }
+        else if(c == '/' && peek_next(lx) == '/')
+        {
+            while(!is_at_end(lx) && peek(lx) != '\n')
+            {
+                advance(lx);
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+        
 }
 
 Token lex_identifier_or_keyword(Lexer *lx)
@@ -346,7 +372,7 @@ Token lex_symbol(Lexer *lx)
 
 Token next_token(Lexer *lx)
 {
-    skip_whitespace(lx);
+    skip_whitespace_and_comment(lx);
     Loc loc = lx->loc;
     long start = lx->index;
 
