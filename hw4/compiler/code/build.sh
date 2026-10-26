@@ -10,7 +10,7 @@ fi
 
 echo "Build success!"
 
-echo === TEST ON EXAMPLE.JIVE ===
+echo === TEST ON SIMPLE.JIVE ===
 
 ./test_lexer ../jive_programs/simple.jive
 ret_val=$?

@@ -1,3 +1,6 @@
+#ifndef JIVE_STRING_C
+#define JIVE_STRING_C
+
 #include <stdbool.h>
 
 
@@ -27,3 +30,4 @@ bool strings_match(String s1, String s2)
     }
     return true;
 }
+#endif
